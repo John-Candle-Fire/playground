@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bus Route Form</title>
+    <script>
+        function displayBusRoute(event) {
+            event.preventDefault(); // Prevent form submission
+            var busRoute = document.getElementById("busRoute").value;
+            // alert("Bus Route: " + busRoute);
+            document.write('Bus route' busRoute);
+        }
+    </script>
+</head>
+<body>
+    <form onsubmit="displayBusRoute(event)">
+        <label for="busRoute">Bus Route:</label>
+        <input type="text" id="busRoute" name="busRoute" minlength="2" maxlength="4" required>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
