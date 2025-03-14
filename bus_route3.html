@@ -62,7 +62,7 @@
             } else if (busRoute === '108') {
                 url = `https://data.etabus.gov.hk/v1/transport/kmb/eta/C24D58A7C3133FDC/${busRoute}/1`;
             }
-
+            alert ('url ' url);
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
