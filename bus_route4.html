@@ -78,6 +78,7 @@
                         const secondEta = data.data[1];
                         const etaInfo = `${firstEta.route} to ${firstEta.dest_tc} arriving at ${firstEta.eta.match(/T(.*?)\+/)[1]} then at ${secondEta.eta.match(/T(.*?)\+/)[1]}`;
                         resultDiv.textContent = etaInfo;
+                        console.log('etaInfo ', etaInfo);
                     } else {
                         resultDiv.textContent = 'No data available for this route.';
                     }
