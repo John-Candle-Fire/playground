@@ -75,7 +75,8 @@
                     const resultDiv = document.getElementById('result');
                     if (data.data && data.data.length > 0) {
                         const firstEta = data.data[0];
-                        const etaInfo = `${firstEta.route} to ${firstEta.dest_tc} arriving at ${firstEta.eta.match(/T(.*?)\+/)[1]}`;
+                        const secondEta = data.data[1];
+                        const etaInfo = `${firstEta.route} to ${firstEta.dest_tc} arriving at ${firstEta.eta.match(/T(.*?)\+/)[1]} then at ${secondEta.eta.match(/T(.*?)\+/)[1]}`;
                         resultDiv.textContent = etaInfo;
                     } else {
                         resultDiv.textContent = 'No data available for this route.';
