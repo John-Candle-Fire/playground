@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus Route ETA</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        header, footer {
+            background-color: #f8f8f8;
+            padding: 10px;
+            text-align: center;
+        }
+        form {
+            margin: 20px 0;
+        }
+        input[type="text"] {
+            width: 50px;
+            padding: 5px;
+        }
+        button {
+            padding: 5px 10px;
+        }
+        .result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Bus Route ETA Checker</h1>
+    </header>
+
+    <form id="busForm">
+        <label for="busRoute">Enter Bus Route:</label>
+        <input type="text" id="busRoute" maxlength="3" required>
+        <button type="submit">Submit</button>
+    </form>
+
+    <div class="result" id="result"></div>
+
+    <footer>
+        <p>Enter the bus route number to get the estimated arrival time.</p>
+    </footer>
+
+    <script>
+        document.getElementById('busForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const busRoute = document.getElementById('busRoute').value;
+            const allowedRoutes = ['27', '25A', '25', '85', '108'];
+            if (!allowedRoutes.includes(busRoute)) {
+                alert('Invalid bus route!');
+                return;
+            }
+
+            let url = '';
+            if (['27', '25A', '25', '85'].includes(busRoute)) {
+                url = `https://rt.data.gov.hk/v2/transport/citybus/eta/CTB/001208/${busRoute}`;
+            } else if (busRoute === '108') {
+                url = `https://data.etabus.gov.hk/v1/transport/kmb/eta/C24D58A7C3133FDC/${busRoute}/1`;
+            }
+
+            console.log('Fetching URL:', url);
+
+            fetch(url)
+                .then(response => {
+                    console.log('Response status:', response.status);
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Received data:', data);
+                    const resultDiv = document.getElementById('result');
+                    if (data.data && data.data.length > 0) {
+                        const firstEta = data.data[0];
+                        const etaInfo = `${firstEta.route} to ${firstEta.dest_tc} arriving at ${firstEta.eta.match(/T(.*?)\+/)[1]}`;
+                        resultDiv.textContent = etaInfo;
+                    } else {
+                        resultDiv.textContent = 'No data available for this route.';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        });
+    </script>
+</body>
+</html>
